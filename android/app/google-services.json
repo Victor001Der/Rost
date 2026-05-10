@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "702791169587",
+    "project_id": "rost-new-6d4db",
+    "storage_bucket": "rost-new-6d4db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702791169587:android:0377f27ec9237c07825546",
+        "android_client_info": {
+          "package_name": "com.example.rost"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEbfD7zCuXdGDI4qJhRTHyQP0hNyg6qkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

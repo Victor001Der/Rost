@@ -19,7 +19,7 @@ class Child extends HiveObject {
   @HiveField(6)
   final String? parentPhone;
   @HiveField(7)
-  final int defaultPrice;
+  final double defaultPrice;
   @HiveField(8)
   final DateTime createdAt;
   @HiveField(9)
@@ -76,7 +76,7 @@ factory Child.fromFirestore(DocumentSnapshot doc)  {
     String? notes,
     String? parentName,
     String? parentPhone,
-    int? defaultPrice,
+    double? defaultPrice,
     bool? isActive,
   }) {
     return Child(

@@ -24,7 +24,7 @@ class ChildAdapter extends TypeAdapter<Child> {
       notes: fields[4] as String?,
       parentName: fields[5] as String?,
       parentPhone: fields[6] as String?,
-      defaultPrice: fields[7] as int,
+      defaultPrice: fields[7] as double,
       createdAt: fields[8] as DateTime,
       isActive: fields[9] as bool,
     );

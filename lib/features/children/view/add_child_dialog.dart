@@ -49,7 +49,7 @@ class _AddChildDialogState extends State<AddChildDialog> {
             TextField(
               controller: _nameController,
               decoration: const InputDecoration(
-                labelText: 'Имя воспитанника',
+                labelText: 'Имя',
               ),
             ),
             const SizedBox(

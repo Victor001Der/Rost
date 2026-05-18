@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rost/core/extension/context_extension.dart';
+import 'package:rost/features/auth/bloc/auth_state.dart';
 import 'package:rost/features/auth/view/login_screen.dart';
+import 'package:rost/features/navigation/view/main_navigation.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 
@@ -12,13 +14,10 @@ class RegistrationScreen extends StatefulWidget {
   State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-
-
 class _RegistrationScreenState extends State<RegistrationScreen> {
-
-final TextEditingController _emailController = TextEditingController();
-final TextEditingController _password1Controller = TextEditingController();
-final TextEditingController _password2Controller = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _password1Controller = TextEditingController();
+  final TextEditingController _password2Controller = TextEditingController();
 
   void _onRegisterPressed() {
     final email = _emailController.text.trim();
@@ -52,80 +51,96 @@ final TextEditingController _password2Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Регистрация пользователя',
-          style: TextStyle(
-            fontSize: 24,
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthError) {
+          context.showMessage(state.message);
+        } else if (state is AuthSuccess) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => MainNavigation()),
+            (route) => false, // убирает все предыдущие экраны
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'Регистрация пользователя',
+            style: TextStyle(
+              fontSize: 24,
+            ),
           ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
 
-            // Логин
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Логин',
-                hintText: 'extend@mail.ru',
-                helperText: 'Введите email',
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Ввод пароля
-            TextField(
-              obscureText: true,
-              controller: _password1Controller,
-              decoration: const InputDecoration(
-                labelText: 'Пароль',
-                hintText: '********',
-                helperText: 'Введите пароль',
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Повторить пароль
-            TextField(
-              obscureText: true,
-              controller: _password2Controller,
-              decoration: const InputDecoration(
-                labelText: 'Пароль',
-                hintText: '********',
-                helperText: 'Повторите пароль',
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Кнопки
-            Row(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                  },
-                  child: const Text('Назад'),
+              // Логин
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Логин',
+                  hintText: 'extend@mail.ru',
+                  helperText: 'Введите email',
                 ),
-                const Spacer(),
-                ElevatedButton(
-                  onPressed: () {
-                    _onRegisterPressed();
-                  },
-                  child: const Text('Зарегистрировать'),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Ввод пароля
+              TextField(
+                obscureText: true,
+                controller: _password1Controller,
+                decoration: const InputDecoration(
+                  labelText: 'Пароль',
+                  hintText: '********',
+                  helperText: 'Введите пароль',
                 ),
-              ],
-            ),
-          ],
+              ),
+
+              const SizedBox(height: 16),
+
+              // Повторить пароль
+              TextField(
+                obscureText: true,
+                controller: _password2Controller,
+                decoration: const InputDecoration(
+                  labelText: 'Пароль',
+                  hintText: '********',
+                  helperText: 'Повторите пароль',
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Кнопки
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push( 
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    },
+                    child: const Text('Назад'),
+                  ),
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      _onRegisterPressed();
+                    },
+                    child: const Text('Зарегистрировать'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

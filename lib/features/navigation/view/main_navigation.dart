@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rost/features/children/view/children_tab.dart';
 import 'package:rost/features/home/view/home_tab.dart';
 import 'package:rost/features/navigation/bloc/navigation_bloc.dart';
 import 'package:rost/features/navigation/bloc/navigation_event.dart';
@@ -11,28 +12,27 @@ class MainNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //инициировал блок
-    return BlocProvider(
-      create: (_) => NavigationBloc(),
-      child: Scaffold(
-        body: BlocBuilder<NavigationBloc, NavigationState>(
-          builder: (context, state) => IndexedStack(
-            index: state.currentIndex,
-            children: const [
-              //пока что заглужки
-              HomeTab(),
-              Center(child: Text('Дети')),
-              Center(child: Text('Занятия')),
-              Center(child: Text('Отчёты')),
-              Center(child: Text('Настройки')),
-            ],
-          ),
+    return Scaffold(
+      body: BlocBuilder<NavigationBloc, NavigationState>(
+        builder: (context, state) => IndexedStack(
+          index: state.currentIndex,
+          children: const [
+            //пока что заглужки
+            HomeTab(),
+            ChildrenTab(),
+            Center(child: Text('Занятия')),
+            Center(child: Text('Отчёты')),
+            Center(child: Text('Настройки')),
+          ],
         ),
-        //панель с кнопками
-        bottomNavigationBar: BottomNavigationBar(
-currentIndex: context.watch<NavigationBloc>().state.currentIndex,
-onTap: (index) => context.read<NavigationBloc>().add(TabChanged(index)),
-type: BottomNavigationBarType.fixed,
-          items: const[
+      ),
+      //панель с кнопками
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: context.watch<NavigationBloc>().state.currentIndex,
+          onTap: (index) =>
+              context.read<NavigationBloc>().add(TabChanged(index)),
+          type: BottomNavigationBarType.fixed,
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Главная',
@@ -53,9 +53,7 @@ type: BottomNavigationBarType.fixed,
               icon: Icon(Icons.settings),
               label: 'Настройки',
             ),
-          ]
-          ),
-      ),
+          ]),
     );
   }
 }

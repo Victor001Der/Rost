@@ -15,10 +15,10 @@ dependencies:
   equatable: ^2.0.5
 
   # Firebase
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.15.3
-  cloud_firestore: ^4.13.6
-  firebase_messaging: ^14.7.10
+  firebase_core: ^4.9.0
+  firebase_auth: ^6.5.1
+  cloud_firestore: ^6.4.1
+  firebase_messaging: ^16.2.2
 
   # Локальное хранилище
   hive: ^2.2.3            

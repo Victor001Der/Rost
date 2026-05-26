@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rost/features/children/view/children_tab.dart';
 import 'package:rost/features/home/view/home_tab.dart';
+import 'package:rost/features/lessons/view/lesson_tab.dart';
 import 'package:rost/features/navigation/bloc/navigation_bloc.dart';
 import 'package:rost/features/navigation/bloc/navigation_event.dart';
 import 'package:rost/features/navigation/bloc/navigation_state.dart';
@@ -20,7 +21,7 @@ class MainNavigation extends StatelessWidget {
             //пока что заглужки
             HomeTab(),
             ChildrenTab(),
-            Center(child: Text('Занятия')),
+            LessonsTab(),
             Center(child: Text('Отчёты')),
             Center(child: Text('Настройки')),
           ],

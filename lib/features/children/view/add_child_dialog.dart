@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rost/core/extension/context_extension.dart';
 import 'package:rost/data/models/child.dart';
@@ -56,10 +57,14 @@ class _AddChildDialogState extends State<AddChildDialog> {
               height: 16,
             ),
             TextField(
+              keyboardType: TextInputType.number,
               controller: _ageController,
               decoration: const InputDecoration(
                 labelText: 'Возраст',
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly, // только цифры
+              ],
             ),
             const SizedBox(
               height: 16,
@@ -95,6 +100,9 @@ class _AddChildDialogState extends State<AddChildDialog> {
                 helperText: 'не обязательно',
               ),
               keyboardType: TextInputType.phone,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly, // только цифры
+              ],
             ),
             const SizedBox(height: 16),
             TextField(
@@ -104,6 +112,9 @@ class _AddChildDialogState extends State<AddChildDialog> {
                 helperText: 'по умолчанию 1000',
               ),
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly, // только цифры
+              ],
             ),
             const SizedBox(height: 20),
             Row(
@@ -118,6 +129,8 @@ class _AddChildDialogState extends State<AddChildDialog> {
                   onPressed: () {
                     //Закрывается клавитура при нажитие кнопки
                     FocusScope.of(context).unfocus();
+
+                    
 
                     final name = _nameController.text.trim();
                     final age = int.tryParse(_ageController.text) ?? 0;
@@ -140,8 +153,8 @@ class _AddChildDialogState extends State<AddChildDialog> {
                     final price =
                         double.tryParse(_priceController.text) ?? 1000;
 
-                        //Проверки
-                    if (name.isEmpty || age <= 0) {
+                    //Проверки
+                    if (name.isEmpty || age == null || age <= 0) {
                       context.showMessage('Введите имя и корректный возраст');
                       return;
                     }
@@ -154,7 +167,6 @@ class _AddChildDialogState extends State<AddChildDialog> {
                           .showMessage('Стоимость не может быть отрицательной');
                       return;
                     }
-
 
                     final child = Child(
                       id: DateTime.now().millisecondsSinceEpoch.toString(),

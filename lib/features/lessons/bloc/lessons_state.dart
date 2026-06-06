@@ -32,3 +32,11 @@ class LessonsError extends LessonsState {
   @override
   List<Object?> get props => [message];
 }
+
+//на эту дату занятий нет
+class LessonEmptyForDay extends LessonsState {
+  final String message;
+  const LessonEmptyForDay({this.message = 'На эту дату занятий нет'});
+  @override
+  List<Object?> get props => [message];
+} 

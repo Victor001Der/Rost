@@ -10,6 +10,7 @@ import 'package:rost/features/children/bloc/children_bloc.dart';
 import 'package:rost/features/lessons/bloc/lessons_bloc.dart';
 import 'package:rost/features/navigation/bloc/navigation_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:rost/features/reports/bloc/reports_bloc.dart';
 
 class RostApp extends StatelessWidget {
   const RostApp({super.key});
@@ -24,7 +25,10 @@ class RostApp extends StatelessWidget {
             create: (_) => ChildrenBloc(ChildRepository())),
         BlocProvider<LessonsBloc>(
           create: (_) => LessonsBloc(LessonsRepository()),
-        )
+        ),
+        BlocProvider<ReportsBloc>(
+          create: (_) => ReportsBloc(LessonsRepository()),
+        ),
       ],
       child: MaterialApp(
         title: 'Rost',

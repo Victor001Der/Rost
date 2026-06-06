@@ -42,13 +42,13 @@ class LessonsBloc extends Bloc<LessonsEvent, LessonsState> {
       await _loadLessons(emit);
     });
 
-    // загрузка занятий на конкретную дату (не использую loadLessons потму что тут сортировк по дате)
+    // загрузка занятий на конкретную дату (не использую loadLessons потому что тут сортировка по дате)
     on<LoadLessonsByDate>((event, emit) async {
       emit(LessonsLoading());
       try {
         final lessons = await _lessonsRepository.getLessonsByDate(event.date);
         if (lessons.isEmpty) {
-          emit(LessonsEmpty());
+          emit(LessonEmptyForDay());
         } else {
           emit(LessonsLoaded(lessons));
         }
@@ -56,5 +56,7 @@ class LessonsBloc extends Bloc<LessonsEvent, LessonsState> {
         emit(LessonsError('Не удалось загрузить занятия'));
       }
     });
+
+  
   }
 }

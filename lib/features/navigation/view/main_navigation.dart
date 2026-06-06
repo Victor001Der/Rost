@@ -6,6 +6,7 @@ import 'package:rost/features/lessons/view/lesson_tab.dart';
 import 'package:rost/features/navigation/bloc/navigation_bloc.dart';
 import 'package:rost/features/navigation/bloc/navigation_event.dart';
 import 'package:rost/features/navigation/bloc/navigation_state.dart';
+import 'package:rost/features/reports/view/reports_tab.dart';
 
 class MainNavigation extends StatelessWidget {
   const MainNavigation({super.key});
@@ -22,7 +23,7 @@ class MainNavigation extends StatelessWidget {
             HomeTab(),
             ChildrenTab(),
             LessonsTab(),
-            Center(child: Text('Отчёты')),
+            ReportsTab(),
             Center(child: Text('Настройки')),
           ],
         ),

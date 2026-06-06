@@ -37,8 +37,8 @@ class _LessonsViewState extends State<_LessonsView> {
     _selectedDay = DateTime.now();
     _focusedDay = DateTime.now();
 
-    // Загружаем занятия на сегодня
-    context.read<LessonsBloc>().add(LoadLessonsByDate(_selectedDay));
+    // Загружаем занятия при входе
+    context.read<LessonsBloc>().add(LoadLessons());
   }
 
   @override
@@ -135,18 +135,64 @@ class _LessonsViewState extends State<_LessonsView> {
                     ),
                     // Список занятий на выбранный день
                     Expanded(
-                        child: ListView.builder(
-                            itemCount: state.lessons.length,
-                            itemBuilder: (context, index) {
-                              final lesson = state.lessons[index];
-                              return ListTile(
-                                title: Text(lesson.childName),
-                                subtitle: Text(
-                                    '${lesson.date.day}.${lesson.date.month}'),
-                                trailing: Text('${lesson.price}₽', 
-                                style: TextStyle(fontSize: 20),),
-                              );
-                            }))
+                      child: ListView.builder(
+                        itemCount: state.lessons.length,
+                        itemBuilder: (context, index) {
+                          final lesson = state.lessons[index];
+                          return ListTile(
+                            title: Text(lesson.childName),
+                            subtitle:
+                                Text('${lesson.date.day}.${lesson.date.month}'),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '${lesson.price}₽',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    //диалог подтверждения
+                                    final confirm = await showDialog<bool>(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text('Удалить занятие?'),
+                                        content: Text(
+                                          'Вы уверены, что хотите удалить занятие с ${lesson.childName}?',
+                                        ),
+                                        actionsAlignment: MainAxisAlignment.center,
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context, false),
+                                            child: Text('Отмена'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context, true),
+                                            child: Text('Удалить',
+                                                style: TextStyle(
+                                                    color: Colors.red)),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+
+                                    // Если пользователь подтвердил - удаляем
+                                    if (confirm == true && context.mounted) {
+                                      context
+                                          .read<LessonsBloc>()
+                                          .add(DeleteLesson(lesson.id));
+                                    }
+                                  },
+                                  icon: Icon(Icons.delete, color: Colors.red),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               );

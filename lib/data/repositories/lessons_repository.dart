@@ -47,4 +47,26 @@ class LessonsRepository {
     final box = Hive.box<Lesson>('lessons_cache');
     await box.delete(id);
   }
+
+  //Получить занятия за период
+  Future<List<Lesson>> getLessonsByDateRange(
+      DateTime start, DateTime end) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('lessons_cache')
+          .where('date', isGreaterThanOrEqualTo: start)
+          .where('date', isLessThanOrEqualTo: end)
+          .get();
+
+      return querySnapshot.docs
+          .map((doc) => Lesson.fromFirestore(doc))
+          .toList();
+    } catch (e) {
+      final box = Hive.box<Lesson>('lessons_cache');
+      return box.values.where((lesson) {
+        return lesson.date.isAfter(start.subtract(const Duration(days: 1))) &&
+            lesson.date.isBefore(end.add(const Duration(days: 1)));
+      }).toList();
+    }
+  }
 }
